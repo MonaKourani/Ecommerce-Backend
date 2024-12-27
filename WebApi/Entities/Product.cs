@@ -17,5 +17,6 @@ namespace WebApi.Entities
         [Required]
         public byte[]? Images { get; set; } = null!;
 
+        public Department Department { get; set; }
     }
 }
