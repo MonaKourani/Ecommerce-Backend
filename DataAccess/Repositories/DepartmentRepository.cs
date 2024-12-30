@@ -54,6 +54,11 @@ namespace DataAccess.Repositories
            
         }
 
+        public IEnumerable<Department> GetSearchResult(int departmentId, string search)
+        {
+            throw new NotImplementedException();
+        }
+
         PagedResult<Department> IRepository<Department>.GetPart(int departmentId, int currentPage, int postsPerPage)
         {
             throw new NotImplementedException();

@@ -47,5 +47,21 @@ namespace Services
                 throw new Exception("An error occurred while retrieving products.", ex);
             }
         }
+        public IEnumerable<Product> GetSearchResult(int departmentId, string search)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(search))
+                {
+                    return null;
+                }
+                return _repository.GetSearchResult(departmentId, search);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving search result.", ex);
+            }
+        }
     }
 }

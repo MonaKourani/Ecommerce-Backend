@@ -19,6 +19,7 @@ namespace DataAccess.Contacts
         public IEnumerable<T> GetAll();
         public PagedResult<T> GetPart(int departmentId,int currentPage,int postsPerPage );
         public IEnumerable<T> GetById(int Id);
+        public IEnumerable<T> GetSearchResult(int departmentId, string search);
         public T GetByName(string name);
     }
 }

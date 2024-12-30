@@ -77,7 +77,21 @@ namespace DataAccess.Repositories
                 throw new Exception("An error occurred while retrieving products.", ex);
             }
         }
-        
 
+        public IEnumerable<Product> GetSearchResult(int departmentId, string search)
+        {
+            try
+            {
+                var result = _context.Products
+                    .Where(p => p.DepartmentId == departmentId && p.ProductName.ToLower().Contains(search.ToLower()))
+                    .ToList();
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving search result.", ex);
+            }
+        }
     }
 }

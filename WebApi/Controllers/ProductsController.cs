@@ -62,6 +62,19 @@ namespace WebApi.Controllers
                 throw;
             }
         }
+        [HttpGet("{departmentId}/{search}")]
+        public JsonResult GetSearchResult(int departmentId,string search)
+        {
+            try
+            {
+                var result = _service.GetSearchResult(departmentId, search);
+                return new JsonResult(Ok(result));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         // Create
         /*
