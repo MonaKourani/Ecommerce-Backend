@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DataAccess.Contacts;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Services;
 using WebApi.Context;
 using WebApi.Entities;
 
@@ -9,14 +12,59 @@ namespace WebApi.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ProductService _service;
 
-        public ProductController(ApplicationDbContext context)
+        public ProductController(ProductService service)
         {
-            _context = context;
+            _service = service;
+        }
+
+        // Get All Products
+        [HttpGet]
+        public JsonResult GetAll()
+        {
+            
+            try
+            {
+                var result = _service.GetAll();
+                return new JsonResult(Ok(result));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
+        }
+
+        [HttpGet("{departmentId}")]
+        public JsonResult GetByDepartmentId(int departmentId)
+        {
+            try
+            {
+                var result = _service.GetByDepartmentId(departmentId);
+                return new JsonResult(Ok(result));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [HttpGet("{departmentId}/{currentPage}/{postsPerPage}")]
+        public JsonResult GetPart(int departmentId,int currentPage,int postsPerPage)
+        {
+            try
+            {
+                var result = _service.GetPart(departmentId,currentPage,postsPerPage);
+                return new JsonResult(Ok(result));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         // Create
+        /*
         [HttpPost]
         public IActionResult CreateProduct([FromForm] ProductRequest request)
         {
@@ -44,7 +92,7 @@ namespace WebApi.Controllers
             return Ok(product);
         }
 
-
+        */
         // Get Product by ID
         /*
         [HttpGet("{id}")]
@@ -75,24 +123,7 @@ namespace WebApi.Controllers
             return new JsonResult(Ok(result));
         }
         */
-        // Get All Products
-        [HttpGet]
-        public JsonResult GetAll()
-        {
-            var result = _context.Products.ToList();
-            return new JsonResult(Ok(result));
-        }
-        
-        [HttpGet("{departmentId}")]
-        public JsonResult GetByDepartmentId(int departmentId)
-        {
-            var products = _context.Products.Where(p => p.DepartmentId == departmentId).ToList();
-            if (!products.Any())
-            {
-                return new JsonResult(NotFound($"No products found for Department ID: {departmentId}"));
-            }
-            return new JsonResult(Ok(products));
-        }
+
 
 
     }

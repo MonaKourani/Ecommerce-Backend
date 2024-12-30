@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Services;
 using WebApi.Context;
 using WebApi.Entities;
 
@@ -10,11 +11,39 @@ namespace WebApi.Controllers
     [ApiController]
     public class DepartmentController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly DepartmentServices _service;
 
-        public DepartmentController(ApplicationDbContext context)
+        public DepartmentController(DepartmentServices service)
         {
-            _context = context;
+            _service = service;
+        }
+
+        //Get All
+        [HttpGet("GetAll")]
+        public JsonResult GetAll()
+        {
+            try
+            {
+                var result = _service.GetAll();
+                return new JsonResult(Ok(result));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        [HttpGet("{departmentName}")]
+        public JsonResult GetId(string departmentName)
+        {
+            try
+            {
+                var result = _service.GetByName(departmentName);
+                return new JsonResult(Ok(result));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         // create/Edit
@@ -69,24 +98,7 @@ namespace WebApi.Controllers
         }
         */
 
-        //Get All
-        [HttpGet("GetAll")]
-        public JsonResult GetAll()
-        {
-            var result = _context.departments.ToList();
-            return new JsonResult(Ok(result));
-        }
-        [HttpGet("{departmentName}")]
-        public JsonResult GetId(string departmentName)
-        {
-            var department = _context.departments.Where(p => p.Name == departmentName).ToList();
-            if (!department.Any())
-            {
-                return new JsonResult(NotFound($"No products found for Department ID: {departmentName}"));
-            }
-            int id = department.First().Id;
-            return new JsonResult(Ok(id));
-        }
+
 
 
 

@@ -1,4 +1,6 @@
-﻿namespace WebApi.Entities
+﻿using Microsoft.AspNetCore.Http;
+
+namespace WebApi.Entities
 {
     public class ProductRequest
     {
