@@ -28,13 +28,10 @@ builder.Services.AddScoped<IRepository<Department>, DepartmentRepository>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<DepartmentServices>();
 
-// Connect to frontend
-var provider = builder.Services.BuildServiceProvider();
-var configuration = provider.GetRequiredService<IConfiguration>();
 
 builder.Services.AddCors(options =>
 {
-    var frontendURL = configuration.GetValue<string>("FrorntendURL");
+    var frontendURL = builder.Configuration.GetValue<string>("FrorntendURL");
     options.AddDefaultPolicy(builder =>
     {
         builder.WithOrigins(frontendURL).AllowAnyMethod().AllowAnyHeader();
